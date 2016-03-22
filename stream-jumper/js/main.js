@@ -431,59 +431,59 @@ function subscriber(channelID) {
 
 // Displays an alert if a new channel comes online that isn't already shown.
 function jumperUpdate() {
-  var userID = localStorage.getItem('userID');
-  if (userID !== '' && userID !== undefined && userID !== null){
-    socket.request({
-        url: '/api/v1/users/' + userID + '/follows',
-        method: 'get'
-    }, function(body, response) {
-        if (response.statusCode == 200) {
-            // Loop through list.
-            $.each(body, function(index, element) {
-                var cName = element.token;
-                var partnered = element.partnered;
-                if (partnered === true){
-                  var partnered = "partner-notification";
-                }else{
-                  var partnered = "regular-notification";
-                }
+    var userID = localStorage.getItem('userID');
+    if (userID !== '' && userID !== undefined && userID !== null){
+        socket.request({
+            url: '/api/v1/users/' + userID + '/follows',
+            method: 'get'
+        }, function(body, response) {
+            if (response.statusCode == 200) {
+                // Loop through list.
+                $.each(body, function(index, element) {
+                    var cName = element.token;
+                    var partnered = element.partnered;
+                    if (partnered === true){
+                        var partnered = "partner-notification";
+                    }else{
+                        var partnered = "regular-notification";
+                    }
 
-                // If channel not suspended and they aren't already on the page (and thus subscribed in websocket)...
-                if (element.suspended !== true && $('#' + element.id).length === 0 && element.online === true) {
-                      // Add line to notification box
-                      if ( $('.'+cName+'-notification').length < 1){
-                        $('.notification').prepend('<div class="'+cName+'-notification notification-name"><span class="'+partnered+'">'+cName+'</span> is online!</div>');
-                        // Show notifications if they are not already shown.
-                        if ( $('.notification-wrap').is(':visible') === false){
-                          $('.notification-wrap').fadeIn('fast');
-                          // If sounds checked, played sound.
-                          if ($('.notification-sound-input').prop('checked') === true) {
-                              $('.notification-sound')[0].play();
-                          }
+                    // If channel not suspended and they aren't already on the page (and thus subscribed in websocket)...
+                    if (element.suspended !== true && $('#' + element.id).length === 0 && element.online === true) {
+                        // Add line to notification box
+                        if ( $('.'+cName+'-notification').length < 1){
+                            $('.notification').prepend('<div class="'+cName+'-notification notification-name"><span class="'+partnered+'">'+cName+'</span> is online!</div>');
+                            // Show notifications if they are not already shown.
+                            if ( $('.notification-wrap').is(':visible') === false){
+                                $('.notification-wrap').fadeIn('fast');
+                                // If sounds checked, played sound.
+                                if ($('.notification-sound-input').prop('checked') === true) {
+                                    $('.notification-sound')[0].play();
+                                }
+                            }
                         }
-                      }
 
-                      // Show scroll bar once notification area hits 300 px tall.
-                      if ( $('.notification').height() >= 300){
-                        $('.notification').css('overflow-y','scroll');
-                      } else{
-                        $('.notification').css('overflow-y','hidden');
-                      }
+                        // Show scroll bar once notification area hits 300 px tall.
+                        if ( $('.notification').height() >= 300){
+                            $('.notification').css('overflow-y','scroll');
+                        } else{
+                            $('.notification').css('overflow-y','hidden');
+                        }
 
-                } else if ( $('#' + element.id).length > 0 && element.online === false ) {
-                    // If channel is on the page, but we get an offline response then remove the channel.
-                    $('#' + element.id).fadeOut('fast');
+                    } else if ( $('#' + element.id).length > 0 && element.online === false ) {
+                        // If channel is on the page, but we get an offline response then remove the channel.
+                        $('#' + element.id).fadeOut('fast');
 
-                    // Remove their line from the notification box.
-                    $('.'+cName+'-notification').remove();
-                }
-            });
+                        // Remove their line from the notification box.
+                        $('.'+cName+'-notification').remove();
+                    }
+                });
 
-        } else {
-            console.error('Error getting the follower list.');
-        }
-    });
-  }
+            } else {
+                console.error('Error getting the follower list.');
+            }
+        });
+    }
 }
 
 // Function to run every time new data is recieved from the websocket.
@@ -568,7 +568,7 @@ $(document).ready(function() {
 
     // Run notification
     setInterval(function(){
-      jumperUpdate();
+        jumperUpdate();
     }, 60000)
 
 });
