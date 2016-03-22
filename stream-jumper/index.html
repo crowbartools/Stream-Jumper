@@ -1,0 +1,83 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Stream Jumper for Beam.pro</title>
+        <meta name="description" content="Stream Jumper is a way to join multiple Beam.pro chat rooms at the same time without the need for popout chat windows.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/jquery-ui.min.css" rel='stylesheet' type='text/css'>
+		<link href="css/main.css" rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+
+		<div class="wrapper">
+			<div class="top">
+				<div class="left">
+					<div class="title">
+						<h1><span>Stream Jumper</span> for Beam.pro</h1>
+					</div>
+					<nav>
+						<a href="http://www.firebottle.tv">Firebottle.tv</a>
+						<span class="separator">|</span>
+						<a href="http://www.firebottle.tv/beam-lookup">Beam Lookup</a>
+						<span class="separator">|</span>
+						<a href="http://www.firebottle.tv/stream-jumper">Stream Jumper</a>
+            <span class="separator">|</span>
+            <a href="https://github.com/Firebottle/stream-jumper" target="_blank">GitHub</a>
+					</nav>
+				</div>
+				<div class="right">
+					<div class="controls">
+						<div class="ctrl">
+							<input class="streamerinputadd" placeholder="Beam username">
+							<button class="streamerinputaddbtn">Add Streamer</button>
+						</div>
+						<div class="ctrl">
+							<input class="followeradd" placeholder="Your username">
+							<button class="followeraddbtn">Add Online Followed</button>
+						</div>
+						<div class="ctrl lurk-wrap">
+							<input type="checkbox" name="cleanup" value="cleanup" class="cleanup">
+							<p>Auto Cleanup</p>
+						</div>
+						<div class="ctrl notification-sounds">
+							<input type="checkbox" name="notification-sounds" value="notification-sounds" class="notification-sound-input">
+							<p>Sounds</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="content">
+        <div class="notification-wrap">
+          <div class="notification"></div>
+          <div class="notification-button">
+            <button class="followeraddbtn">Add Them</button>
+            <button class="notificationclosebtn">Close</button>
+          </div>
+        </div>
+				<div class="channelwrapper">
+					<!-- All channels stored here -->
+				</div>
+			</div>
+
+			<div class="audio">
+				<audio src="sound/follower.mp3" class="follower-sound">
+				<audio src="sound/subscriber.mp3" class="subscriber-sound">
+          <audio src="sound/notification.mp3" class="notification-sound">
+			</div>
+
+			<div class="footer">
+				Like this tool? Drop by at <a href="http://www.beam.pro/firebottle" target="_blank">beam.pro/firebottle</a> and let me know!
+			</div>
+		</div>
+
+		<script src="js/sails.io.js" autoConnect="false"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="js/jquery-ui.min.js"></script>
+		<script src="js/main.js"></script>
+
+    </body>
+</html>
