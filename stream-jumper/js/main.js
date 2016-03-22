@@ -569,6 +569,6 @@ $(document).ready(function() {
     // Run notification
     setInterval(function(){
       jumperUpdate();
-    }, 10000)
+    }, 60000)
 
 });
