@@ -385,7 +385,7 @@ function buildChannel(channelID, username, title, game, partnered, followers) {
         // Build out the stream on the page.
         $('.channelwrapper').append('<div id="' + channelID + '" stream="' + username + '" followers="' + followers + '" class="stream" style="display:none"><div class="streambar"><div class="stream-notice" style="display:none"></div><div class="closestream"><button class="closebtn" stream="' + channelID + '">X</button></div></div><div class="streamtop"><div class="streamname"><h2 class="' + partnered + '"></h2></div><div class="cGame"></div><div class="cTitle"></div></div><div class="chatwrap"></div></div>');
         $('#' + channelID + ' .chatwrap').html('<iframe class="chatembed" src="https://beam.pro/embed/chat/' + username + '"></iframe>');
-        $('#' + channelID + ' .streamtop h2').html('<a href="http://www.beam.pro/' + username + '" target="_blank">' + username + '</a>');
+        $('#' + channelID + ' .streamtop h2').html('<a href="https://beam.pro/' + username + '" target="_blank">' + username + '</a>');
         $('#' + channelID + ' .cGame').text(game);
         $('#' + channelID + ' .cTitle').text(title);
         $('#' + channelID + ' .streamtop').append('<button class="watch" stream="' + username + '">Watch</button>');
@@ -478,6 +478,19 @@ function jumperUpdate() {
                         $('.'+cName+'-notification').remove();
                     }
                 });
+
+                /* 
+                // Debug - return channels we're subbed to.
+                socket.request({
+                    url: '/api/v1/live',
+                    method: 'get'
+                }, function(body,response){
+                        if(response.statusCode == 200){
+                            console.log('Returning socket list...');
+                            console.log(response);
+                        }
+                });
+                */
 
             } else {
                 console.error('Error getting the follower list.');
