@@ -12,72 +12,77 @@
     </head>
     <body>
 
-		<div class="wrapper">
-			<div class="top">
-				<div class="left">
-					<div class="title">
-						<h1><span>Stream Jumper</span> for Beam.pro</h1>
+    <div class="settings">
+    	<div id="menu" class="panel">
+    		<div class="inner-menu-wrap">
+
+				<div class="controls">
+					<h2>Settings</h2>
+					<div class="ctrl">
+						<input class="followeradd" placeholder="Your username">
+						<button class="followeraddbtn">Get Started!</button>
 					</div>
+					<div class="ctrl lurk-wrap">
+						<input type="checkbox" name="cleanup" value="cleanup" class="cleanup">
+						<p>Auto Cleanup</p>
+					</div>
+				</div>
+
+				<div class="notification-wrap menu-section">
+					<div class="notification-section-title">
+						<h2>Online</h2>
+						<div class="addallbuttonwrap">
+							<button class="addallbutton">Add All</button>
+						</div>
+					</div>
+					<div class="notification"></div>
+				</div>
+
+				<div class="link-wrap menu-section">
+					<h2>Links</h2>
 					<nav>
 						<a href="http://www.firebottle.tv">Firebottle.tv</a>
-						<span class="separator">|</span>
 						<a href="http://www.firebottle.tv/beam-lookup">Beam Lookup</a>
-						<span class="separator">|</span>
 						<a href="http://www.firebottle.tv/stream-jumper">Stream Jumper</a>
-            <span class="separator">|</span>
-            <a href="https://github.com/Firebottle/stream-jumper" target="_blank">GitHub</a>
+				        <a href="https://github.com/Firebottle/stream-jumper" target="_blank">GitHub</a>
 					</nav>
 				</div>
-				<div class="right">
-					<div class="controls">
-						<div class="ctrl">
-							<input class="streamerinputadd" placeholder="Beam username">
-							<button class="streamerinputaddbtn">Add Streamer</button>
-						</div>
-						<div class="ctrl">
-							<input class="followeradd" placeholder="Your username">
-							<button class="followeraddbtn">Add Online Followed</button>
-						</div>
-						<div class="ctrl lurk-wrap">
-							<input type="checkbox" name="cleanup" value="cleanup" class="cleanup">
-							<p>Auto Cleanup</p>
-						</div>
-						<div class="ctrl notification-sounds">
-							<input type="checkbox" name="notification-sounds" value="notification-sounds" class="notification-sound-input">
-							<p>Sounds</p>
-						</div>
-					</div>
+
+			</div>
+    	</div>
+    </div>
+
+	<div class="wrapper push">
+		<div class="top">
+			<div class="menuburger">
+				<div class="menu-notification-alert">
+					0
 				</div>
+				<a href="#menu" class="menu-link">
+					&#9776;
+				</a>
 			</div>
-
-			<div class="content">
-        <div class="notification-wrap">
-          <div class="notification"></div>
-          <div class="notification-button">
-            <button class="followeraddbtn">Add Them</button>
-            <button class="notificationclosebtn">Close</button>
-          </div>
-        </div>
-				<div class="channelwrapper">
-					<!-- All channels stored here -->
-				</div>
-			</div>
-
-			<div class="audio">
-				<audio src="sound/follower.mp3" class="follower-sound">
-				<audio src="sound/subscriber.mp3" class="subscriber-sound">
-          <audio src="sound/notification.mp3" class="notification-sound">
-			</div>
-
-			<div class="footer">
-				Like this tool? Drop by at <a href="http://beam.pro/firebottle" target="_blank">beam.pro/firebottle</a> and let me know!
+			<div class="title">
+				<h1><span>Stream Jumper</span> for Beam.pro</h1>
 			</div>
 		</div>
 
-		<script src="js/sails.io.js" autoConnect="false"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="js/jquery-ui.min.js"></script>
-		<script src="js/main.js"></script>
+		<div class="content">
+			<div class="channelwrapper">
+				<!-- All channels stored here -->
+			</div>
+		</div>
+
+		<div class="footer">
+			Like this tool? Drop by at <a href="http://beam.pro/firebottle" target="_blank">beam.pro/firebottle</a> and let me know!
+		</div>
+	</div>
+
+	<script src="js/sails.io.js" autoConnect="false"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/bigSlide.min.js"></script>
+	<script src="js/main.js"></script>
 
     </body>
 </html>

@@ -24,35 +24,41 @@ function clickEvents(channelID) {
         // Make sure to use Elem everywhere instead of "this".
         var Elem = e.target;
 
-        // Add Streamer Button
-        if ($(Elem).hasClass('streamerinputaddbtn')) {
-            var username = $('.streamerinputadd').val();
+        // Add Online Streamer
+        if($(Elem).hasClass('addonline')){
+            var username = $(Elem).attr('name');
+            console.log('Clicked online for '+username);
+            singleChannelSubscribe(username)
+        }
 
-            // Local Storage List
-            if (username !== '') {
-                if ($('.' + username).length === 0) {
-                    singleChannelSubscribe(username);
-                    var pastAdds = localStorage.getItem("streamer");
-                    if (pastAdds === undefined || pastAdds === null || pastAdds === '') {
-                        localStorage.setItem("streamer", username);
+        // Get Started Button
+        // Finds username and userid then updates notifications.
+        if ($(Elem).hasClass('followeraddbtn')) {
+            var localUsername = $('.followeradd').val();
+            if (localUsername !== '') {
+                localStorage.setItem("username", localUsername);
+                socket.request({
+                    url: '/api/v1/channels/' + localUsername + '?fields=userId',
+                    method: 'get'
+                }, function(body, response) {
+                    // Get list of people user follows.
+                    if (response.statusCode == 200) {
+                        var userID = body.userId;
+                        localStorage.setItem('userID', userID);
+                        jumperUpdate();
                     } else {
-                        localStorage.setItem("streamer", pastAdds + "," + username);
+                        console.error('Error getting the userID number.');
                     }
-                } else {
-                    alert(username + ' is already in your list!');
-                }
-                $('.streamerinputadd').val('');
+                });
             }
-
         }
 
         // Add Online Followed button
-        if ($(Elem).hasClass('followeraddbtn')) {
-            var localUsername = $('.followeradd').val();
+        if ($(Elem).hasClass('addallbutton')) {
+            var localUsername = localStorage.getItem('username');
 
             // Local Storage List
-            if (localUsername !== '') {
-                localStorage.setItem("username", localUsername);
+            if (localUsername !== '' && localUsername !== undefined) {
                 multiChannelSubscribe(localUsername);
             }
         }
@@ -63,22 +69,7 @@ function clickEvents(channelID) {
             var username = $('#' + stream + ' h2').text();
             var savedStreams = localStorage.getItem("streamer");
             $(Elem).closest('.stream').remove();
-
-            // Strip out of local storage and clean up list
-            var username = new RegExp("(" + username + ")", "gi");
-            var text = savedStreams.replace(username, '');
-            var text = text.replace(/,+/g, ',');
-            var text = $.trim(text);
-            var modifiedList = $.unique(text.split(",")).filter(function(e) {
-                return e.length
-            }).join(",");
-            localStorage.setItem("streamer", modifiedList);
         };
-
-        // Notification Close Button
-        if ($(Elem).hasClass('notificationclosebtn')) {
-            $('.notification-wrap').fadeOut('fast');
-        }
 
     }); // end on body clicks
 
@@ -131,30 +122,6 @@ function singleChannelSubscribe(username) {
                 }
             });
 
-            // If partnered subscribe to that channel also.
-            if (cPartnered === true) {
-                var updateSlug = ["channel:" + channelID + ":subscribed"];
-                socket.request({
-                    url: '/api/v1/live',
-                    method: 'put',
-                    params: {
-                        slug: updateSlug
-                    }
-                }, function(body, response) {
-                    if (response.statusCode == 200) {
-                        // Debug
-                        console.log('Subscribed to subscriber channel', cName);
-                        socket.on(updateSlug, function(data) {
-                            subscriber(channelID);
-                        });
-                    } else if (response.statusCode == 420) {
-                        console.error('Error: Too many subscriptions.');
-                        $('#' + channelID + ' .stream-notice').text('Error.');
-                    } else {
-                        console.error('There was an error subbing to the channel update event.', cName, response.statusCode);
-                    }
-                });
-            };
         } else {
             console.error('Error checking the online state for the channel', username);
         }
@@ -214,43 +181,12 @@ function multiChannelSubscribe(localUsername) {
                                         console.error('There was an error subbing to the channel update event.', cName, response.statusCode);
                                     }
                                 });
-                                // If partnered subscribe to that channel.
-                                if (cPartnered === true) {
-                                    var updateSlug = ["channel:" + channelID + ":subscribed"];
-                                    socket.request({
-                                        url: '/api/v1/live',
-                                        method: 'put',
-                                        params: {
-                                            slug: updateSlug
-                                        }
-                                    }, function(body, response) {
-                                        if (response.statusCode == 200) {
-                                            // Debug
-                                            console.log('Subscribed to subscriber channel', cName);
-                                            socket.on(updateSlug, function(data) {
-                                                subscriber(channelID);
-                                            });
-                                        } else if (response.statusCode == 420) {
-                                            console.error('Error: Too many subscriptions.');
-                                            $('#' + channelID + ' .stream-notice').text('Error.');
-                                        } else {
-                                            console.error('There was an error subbing to the channel update event.', cName, response.statusCode);
-                                        }
-                                    });
-                                };
 
                                 // If the channel is online then go ahead and build it.
                                 buildChannel(channelID, cName, cTitle, cGame, cPartnered, cFollowers);
                             };
-                        } else if ($('#' + element.id).length > 0 && element.online === false) {
-                            // If channel is on the page, but we get an offline response then remove the channel.
-                            $('#' + element.id).fadeOut('fast');
                         }
                     });
-
-                    // Hide the online notification if it is shown because all online should be added now.
-                    $('.notification-wrap').fadeOut('fast');
-                    $('.notification-name').remove();
 
                 } else {
                     console.error('Error getting the follower list.');
@@ -303,7 +239,7 @@ function reconnectSubscribe() {
                     $('#' + channelID + ' h2').addClass('offline');
                 };
 
-                // Unfortunately since the channel is always visible in this mode we need to subscribe to all events.
+                // Since the channel is always visible in this mode we need to subscribe to all events.
                 // Subscribe to channel updates.
                 var updateSlug = ["channel:" + channelID + ":update"];
                 socket.request({
@@ -324,30 +260,6 @@ function reconnectSubscribe() {
                     }
                 });
 
-                // If partnered subscribe to that channel also.
-                if (cPartnered === true) {
-                    var updateSlug = ["channel:" + channelID + ":subscribed"];
-                    socket.request({
-                        url: '/api/v1/live',
-                        method: 'put',
-                        params: {
-                            slug: updateSlug
-                        }
-                    }, function(body, response) {
-                        if (response.statusCode == 200) {
-                            // Debug
-                            console.log('Subscribed to subscriber channel', cName);
-                            socket.on(updateSlug, function(data) {
-                                subscriber(channelID);
-                            });
-                        } else if (response.statusCode == 420) {
-                            console.error('Error: Too many subscriptions.');
-                            $('#' + channelID + ' .stream-notice').text('Error.');
-                        } else {
-                            console.error('There was an error subbing to the channel update event.', cName, response.statusCode);
-                        }
-                    });
-                };
             } else {
                 console.error('Error checking the online state for the channel', username);
             }
@@ -355,28 +267,16 @@ function reconnectSubscribe() {
     }); // End each statement
 }
 
-// Saved Channels
-// This grabs the list of saved channels and adds each of them to the page.
-function savedChannels() {
-    var savedStreams = localStorage.getItem("streamer");
-    if (savedStreams !== undefined && savedStreams !== null && savedStreams !== "") {
-        $.each(savedStreams.split(','), function() {
-            singleChannelSubscribe(this);
-        });
-    }
-}
-
 // Build Channel
 // This function adds the channel to teh page using gathered info.
 function buildChannel(channelID, username, title, game, partnered, followers) {
 
-    // If the channel is partnered...
+    // If the channel is partnered we're gonna make the name purple.
     if (partnered === true) {
         var partnered = "partnered";
     } else {
         var partnered = "not-partnered";
     }
-
     // If channel is not already on the page...
     if ($('#' + channelID).length === 0) {
         var streamEmbed = "https://beam.pro/embed/player/" + username;
@@ -415,20 +315,6 @@ function buildChannel(channelID, username, title, game, partnered, followers) {
     }
 }
 
-// Function to run when someone gets a subscriber.
-function subscriber(channelID) {
-    console.error('Subscriber Notice fired!');
-    var channelDiv = $('#' + channelID + ' .stream-notice');
-    $(channelDiv).text('New Sub!');
-    $(channelDiv).addClass('subscriber');
-    $.when($(channelDiv).fadeIn('fast').delay(10000).fadeOut('fast')).done(function() {
-        $(channelDiv).removeClass('subscriber');
-    });
-    if ($('.notification-sound-input').prop('checked') === true) {
-        $('.subscriber-sound')[0].play();
-    }
-}
-
 // Displays an alert if a new channel comes online that isn't already shown.
 function jumperUpdate() {
     var userID = localStorage.getItem('userID');
@@ -452,27 +338,37 @@ function jumperUpdate() {
                     if (element.suspended !== true && $('#' + element.id).length === 0 && element.online === true) {
                         // Add line to notification box
                         if ( $('.'+cName+'-notification').length < 1){
-                            $('.notification').prepend('<div class="'+cName+'-notification notification-name"><span class="'+partnered+'">'+cName+'</span> is online!</div>');
-                            // Show notifications if they are not already shown.
-                            if ( $('.notification-wrap').is(':visible') === false){
-                                $('.notification-wrap').fadeIn('fast');
-                                // If sounds checked, played sound.
-                                if ($('.notification-sound-input').prop('checked') === true) {
-                                    $('.notification-sound')[0].play();
-                                }
+                            $('.notification').prepend('<div class="'+cName+'-notification notification-name"><button class="addonline" name="'+cName+'">Add</button><span class="'+partnered+'">'+cName+'</span><span class="notification-new">New</span></div>');
+                        }
+
+                        // If menu is not opened then add a notification alert.
+                        if ( $('.menu-link.active').length === 0 ){
+                            // Update notification number to match number of new notifications.
+                            var notificationNumber = parseInt( $('.menu-notification-alert').html() );
+                            var notificationList = $('.notification .notification-new').length;
+                            if(notificationNumber !== notificationList){
+                                $('.menu-notification-alert').text(notificationList);
+                                $('.menu-notification-alert').fadeIn('fast');
                             }
                         }
 
-                        // Show scroll bar once notification area hits 300 px tall.
-                        if ( $('.notification').height() >= 300){
+                        // Show scroll bar once notification area hits 600 px tall.
+                        if ( $('.notification').height() >= 600){
                             $('.notification').css('overflow-y','scroll');
                         } else{
                             $('.notification').css('overflow-y','hidden');
                         }
 
+                        // Throw in the add all button if people are online and local username is set.
+                        var localUser = localStorage.getItem('username');
+                        var onlinePeople = $('.notification-name').length;
+                        if ( localUser !== undefined && localUser !== '' && $('.addallbutton').is('visible') === false && onlinePeople > 2){
+                            $('.addallbutton').fadeIn('fast');
+                        } else {
+                            $('.addallbutton').fadeOut('fast');
+                        }
+
                     } else if ( $('#' + element.id).length > 0 && element.online === false ) {
-                        // If channel is on the page, but we get an offline response then remove the channel.
-                        $('#' + element.id).fadeOut('fast');
 
                         // Remove their line from the notification box.
                         $('.'+cName+'-notification').remove();
@@ -521,25 +417,6 @@ function onChannelUpdate(channelID, username, title, game, data, partnered) {
         }
     }
 
-    // Follower gained
-    // This works by storing the follower numbers on the stream div, then checking to see if the new follower number from the websocket went up.
-    // If it did then it will show an alert, otherwise a follower was lost and nothing will happen.
-    if (data.numFollowers !== undefined && data.numFollowers > $('#' + channelID).attr('followers')) {
-        var channelDiv = $('#' + channelID + ' .stream-notice');
-        $(channelDiv).text('New Follower!');
-        $(channelDiv).addClass('follower');
-        $.when($(channelDiv).fadeIn('fast').delay(8000).fadeOut('fast')).done(function() {
-            $(channelDiv).removeClass('follower');
-        });
-
-        // Adjust follower number so only positive changes are showed.
-        var currentValue = parseInt($('#' + channelID).attr('followers'), 10);
-        var newValue = currentValue + 1;
-        $('#' + channelID).attr('followers', newValue);
-        if ($('.notification-sound-input').prop('checked') === true) {
-            $('.follower-sound')[0].play();
-        }
-    }
 
     // Cleanup Bot
     // Runs on every websocket response to add or remove people.
@@ -562,6 +439,17 @@ function onChannelUpdate(channelID, username, title, game, data, partnered) {
     }
 }
 
+// Navigation Open and Closed Triggers
+function navOpen(){
+    // When menu is opened, clear alert number and hide alert.
+    $('.menu-notification-alert').text('0');
+    $('.menu-notification-alert').hide();
+}
+function navClosed(){
+    // Remove new notification in notification list.
+    $('.notification-new').remove();
+}
+
 
 $(document).ready(function() {
     // Load up past username.
@@ -573,9 +461,6 @@ $(document).ready(function() {
         placeholder: 'stream-placeholder'
     });
 
-    // Load saved streams
-    savedChannels();
-
     // Fade out Ad
     $('.footer').delay(5000).fadeOut('slow');
 
@@ -583,5 +468,17 @@ $(document).ready(function() {
     setInterval(function(){
         jumperUpdate();
     }, 60000)
+
+    // Settings Menu
+    $('.menu-link').bigSlide({
+        easyClose: true,
+        state: 'open',
+        afterOpen: function(){
+            navOpen();
+        },
+        afterClose: function(){
+            navClosed();
+        }
+    });
 
 });

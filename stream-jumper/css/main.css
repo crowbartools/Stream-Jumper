@@ -14,6 +14,7 @@ body{
 .wrapper{
 	background: rgba(0, 0, 0, 0.6);
 	height: 100vh;
+	position:relative;
 }
 h1{
 	margin:0px;
@@ -51,24 +52,27 @@ input{
 	background: rgba(0, 0, 0, 0.4);
 	display:flex;
 }
-.controls{
-	text-align:right;
+.title{
+	padding-left:25px;
 }
-.left{
-	margin-right:2%;
-}
-.right{
-	flex-grow: 2;
+.link-wrap{
+	border-top:1px solid gray;
+	text-align:left;
 }
 nav a,nav a:link,nav a:visited,nav a:active{
-	color:white;
+	color:black;
 	text-decoration:none;
 	text-transform: uppercase;
 	font-size:90%;
 	font-weight: 600;
+	display:block;
+	color: #b143d1;
 }
 nav a:hover{
 	text-decoration:underline;
+}
+.controls{
+	text-align:left;
 }
 .ctrl{
 	display:inline-block;
@@ -105,49 +109,74 @@ nav a:hover{
 }
 
 .notification-wrap{
-	text-align:center;
-	background: rgba(0, 0, 0, 1);
-	padding:10px;
-	position:fixed;
-	bottom:5px;
-	right:5px;
+	text-align:left;
 	z-index:2;
-	border:1px solid gray;
-	display:none;
+	border-top:1px solid gray;
+	min-height:200px;
 }
 .notification{
 	max-height:300px;
 	overflow:hidden;
+	text-align:left;
 }
-.notification-button{
-	padding-top:5px;
-	border-top: 1px solid gray;
-}
-.notification-wrap .followeraddbtn, .notification-wrap .notificationclosebtn{
-	background-color:#9b33b9;
-	color: black;
+.notification button{
+	background-color:gray;
+	color: white;
 	border: none;
-	padding:5px 10px 5px 10px;
+	padding:3px 6px;
 	border-radius: 20px;
 	color:white;
 	text-transform: uppercase;
 	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-weight:600;
 	cursor: pointer;
+	font-size:10pt;
 }
-.notification-wrap .notificationclosebtn{
-	background-color:#5d5d5d;
+.addallbutton{
+	background-color:#9b33b9;
+	color: black;
+	border: none;
+	padding:3px 6px;
+	border-radius: 20px;
+	color:white;
+	text-transform: uppercase;
+	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	cursor: pointer;
+	display:none;
+	font-size:11px;
+	position:relative;
+	top:-2px;
+}
+.notification button:hover{
+	background-color:#9b33b9;
 }
 .notification-name{
-	padding:0px 5px 5px 5px;
+	margin:5px 0px;
+}
+.notification-name span{
+	padding-left:5px;
 }
 .partner-notification{
 	color:#b143d1;
+	max-width:146px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	display:inline-block;
+	vertical-align: top;
 }
 .regular-notification{
 	color:#36a7d1;
+	max-width:146px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	display:inline-block;
+	vertical-align: top;
 }
-
+.notification-new{
+	color:green;
+	font-size:10pt;
+	display:inline-block;
+	vertical-align: top;
+}
 .channelwrapper{
 	display:flex;
 	flex-wrap: wrap;
@@ -263,4 +292,47 @@ nav a:hover{
 }
 .footer a, .footer a:active, .footer a:visited, .footer a:hover{
 	text-transform: lowercase;
+}
+
+/** Nav Styling **/
+.menuburger{
+	position:relative;
+	top:5px;
+}
+.menu-link:link,
+.menu-link:visited {
+  color: white;
+  background: rgba(166, 63, 195, 1);
+  border-radius: 4px;
+  padding: .2em .4em;
+  text-decoration:none;
+}
+
+.menu-link:hover,
+.menu-link:active {
+  color: white;
+  background: rgba(166, 63, 195, .6);
+}
+#menu{
+	background-color:#eaeaea;
+	color:black;
+}
+.inner-menu-wrap{
+	padding:10px;
+}
+.menu-section{
+	margin-top:10px;
+}
+.menu-notification-alert{
+	background-color:red;
+	border-radius:100px;
+	padding:1px 4px;
+	position:absolute;
+	top:-8px;
+	right:-8px;
+	font-size:8pt;
+	display:none;
+}
+.notification-section-title h2, .notification-section-title .addallbuttonwrap{
+	display:inline-block;
 }
