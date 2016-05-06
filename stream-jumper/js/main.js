@@ -53,7 +53,22 @@ function clickEvents(channelID) {
             }
         }
 
-        // Add Online Followed button
+        // Add Other Box
+        if ($(Elem).hasClass('streamerinputaddbtn')) {
+            var username = $('.streamerinputadd').val();
+
+            // Local Storage List
+            if (username !== '') {
+                if ($('.' + username).length === 0) {
+                    singleChannelSubscribe(username);
+                    var pastAdds = localStorage.getItem("streamer");
+                }
+                $('.streamerinputadd').val('');
+            }
+
+        }
+
+        // Add All Button
         if ($(Elem).hasClass('addallbutton')) {
             var localUsername = localStorage.getItem('username');
 
@@ -334,6 +349,9 @@ function jumperUpdate() {
                         var partnered = "regular-notification";
                     }
 
+                    // Remove default notification text
+                    $('.default-notify-text').remove();
+
                     // If channel not suspended and they aren't already on the page (and thus subscribed in websocket)...
                     if (element.suspended !== true && $('#' + element.id).length === 0 && element.online === true) {
                         // Add line to notification box
@@ -353,7 +371,7 @@ function jumperUpdate() {
                         }
 
                         // Show scroll bar once notification area hits 600 px tall.
-                        if ( $('.notification').height() >= 600){
+                        if ( $('.notification').height() >= 400){
                             $('.notification').css('overflow-y','scroll');
                         } else{
                             $('.notification').css('overflow-y','hidden');
@@ -427,11 +445,13 @@ function onChannelUpdate(channelID, username, title, game, data, partnered) {
             $('#' + channelID).fadeOut(500, function() {
                 $(this).remove();
             });
+            $('.'+username+'-notification').remove();
         }
     } else if (data.online !== undefined && $('.cleanup').prop('checked') === false) {
         if (onlineStatus === false) {
             // If autolurk isn't checked and a channel goes offline the streamer name should turn gray.
             $('#' + channelID + ' h2').addClass('offline');
+            $('.'+username+'-notification').remove();
         } else {
             // Otherwise it should change back to default.
             $('#' + channelID + ' h2').removeClass('offline');
@@ -460,9 +480,6 @@ $(document).ready(function() {
     $(".channelwrapper").sortable({
         placeholder: 'stream-placeholder'
     });
-
-    // Fade out Ad
-    $('.footer').delay(5000).fadeOut('slow');
 
     // Run notification
     setInterval(function(){

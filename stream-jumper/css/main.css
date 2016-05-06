@@ -27,7 +27,7 @@ h1 span{
 	color: #b143d1;
 }
 h2{
-	margin:0px;
+	margin:0px 0px 10px 0px;
 	padding:0px;
 	font-size:1.20em !important;
 	font-weight:600;
@@ -41,7 +41,7 @@ a, a:link, a:visited, a:active{
 	color:#b143d1;
 }
 input{
-	border-radius: 20px;
+	border-radius: 20px 0px 0px 20px;
 	background-color: white;
 	border: 1px solid black;
 	color:black;
@@ -84,25 +84,35 @@ nav a:hover{
 	color: black;
 	border: none;
 	padding:5px;
-	border-radius: 20px;
+	border-radius: 0px 20px 20px 0px;
 	color:white;
 	text-transform: uppercase;
 	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight:600;
 	cursor: pointer;
+	position:relative;
+	left:-5px;
+	top:1px;
+	border:1px solid black;
 }
 .lurk-wrap input, .lurk-wrap p, .notification-sounds input, .notification-sounds p{
 	display:inline-block;
 	text-transform: uppercase;
 	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-weight:600;
+	padding:0px; 
+	margin:0px;
+	position:relative;
+	top:5px;
 }
 .lurk-wrap input, .notification-sounds input{
-	width:30px;
-	height:30px;
+	width:20px;
+	height:20px;
 	position:relative;
 	top:10px;
 	cursor: pointer;
+}
+.add-single-wrap{
+	border-top:1px solid gray;
 }
 .content{
 	padding-bottom:3em;
@@ -115,7 +125,7 @@ nav a:hover{
 	min-height:200px;
 }
 .notification{
-	max-height:300px;
+	max-height:400px;
 	overflow:hidden;
 	text-align:left;
 }
@@ -154,6 +164,7 @@ nav a:hover{
 }
 .notification-name span{
 	padding-left:5px;
+	font-weight:bold;
 }
 .partner-notification{
 	color:#b143d1;
@@ -176,6 +187,7 @@ nav a:hover{
 	font-size:10pt;
 	display:inline-block;
 	vertical-align: top;
+	text-shadow: 0 0 3px #7FFF00;
 }
 .channelwrapper{
 	display:flex;
@@ -279,18 +291,7 @@ nav a:hover{
 	border:none;
 }
 
-.footer {
-	width: 35%;
-	margin:auto;
-	padding:10px;
-	color:white;
-	border:1px solid gray;
-	clear: both;
-	position: relative;
-	text-align:center;
-	background: rgba(0, 0, 0, 0.6);
-}
-.footer a, .footer a:active, .footer a:visited, .footer a:hover{
+.likethis a, .likethis a:hover, .likethis a:link, .likethis a:visited{
 	text-transform: lowercase;
 }
 

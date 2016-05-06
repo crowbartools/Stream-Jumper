@@ -20,7 +20,7 @@
 					<h2>Settings</h2>
 					<div class="ctrl">
 						<input class="followeradd" placeholder="Your username">
-						<button class="followeraddbtn">Get Started!</button>
+						<button class="followeraddbtn">Go!</button>
 					</div>
 					<div class="ctrl lurk-wrap">
 						<input type="checkbox" name="cleanup" value="cleanup" class="cleanup">
@@ -35,7 +35,17 @@
 							<button class="addallbutton">Add All</button>
 						</div>
 					</div>
-					<div class="notification"></div>
+					<div class="notification">
+						<p class="default-notify-text">Either no one is online or you haven't entered your username yet!</p>
+					</div>
+				</div>
+
+				<div class="add-single-wrap menu-section">
+					<h2>Add Other</h2>
+					<div class="ctrl">
+						<input class="streamerinputadd" placeholder="Streamer Name">
+						<button class="streamerinputaddbtn">Add</button>
+					</div>
 				</div>
 
 				<div class="link-wrap menu-section">
@@ -44,8 +54,9 @@
 						<a href="http://www.firebottle.tv">Firebottle.tv</a>
 						<a href="http://www.firebottle.tv/beam-lookup">Beam Lookup</a>
 						<a href="http://www.firebottle.tv/stream-jumper">Stream Jumper</a>
-				        <a href="https://github.com/Firebottle/stream-jumper" target="_blank">GitHub</a>
+				        <a href="https://github.com/Firebottle/" target="_blank">GitHub</a>
 					</nav>
+					<p class="likethis">Like this tool? Stop by <a href="https://www.beam.pro/firebottle" target="_blank">beam.pro/firebottle</a> and let me know!</p>
 				</div>
 
 			</div>
@@ -73,9 +84,6 @@
 			</div>
 		</div>
 
-		<div class="footer">
-			Like this tool? Drop by at <a href="http://beam.pro/firebottle" target="_blank">beam.pro/firebottle</a> and let me know!
-		</div>
 	</div>
 
 	<script src="js/sails.io.js" autoConnect="false"></script>
@@ -83,6 +91,15 @@
     <script src="js/jquery-ui.min.js"></script>
     <script src="js/bigSlide.min.js"></script>
 	<script src="js/main.js"></script>
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+	  ga('create', 'UA-72658246-1', 'auto');
+	  ga('send', 'pageview');
+
+	</script>
     </body>
 </html>
