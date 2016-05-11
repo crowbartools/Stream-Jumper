@@ -469,6 +469,15 @@ function navClosed(){
     // Remove new notification in notification list.
     $('.notification-new').remove();
 }
+function stickyHeader(){
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > 1){  
+            $('.top').addClass("sticky");
+        }else{
+            $('.top').removeClass("sticky");
+        }
+    });
+}
 
 
 $(document).ready(function() {
@@ -497,5 +506,8 @@ $(document).ready(function() {
             navClosed();
         }
     });
+
+    stickyHeader();
+    $('.settings').show();
 
 });
