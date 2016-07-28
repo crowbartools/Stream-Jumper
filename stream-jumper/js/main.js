@@ -45,7 +45,7 @@ function clickEvents(channelID) {
                     if (response.statusCode == 200) {
                         var userID = body.userId;
                         localStorage.setItem('userID', userID);
-                        jumperUpdate();
+                        jumperUpdate(0);
                     } else {
                         console.error('Error getting the userID number.');
                     }
@@ -74,7 +74,7 @@ function clickEvents(channelID) {
 
             // Local Storage List
             if (localUsername !== '' && localUsername !== undefined) {
-                multiChannelSubscribe(localUsername);
+                multiChannelSubscribe(localUsername, 0);
             }
         }
 
@@ -143,7 +143,7 @@ function singleChannelSubscribe(username) {
     });
 }
 
-function multiChannelSubscribe(localUsername) {
+function multiChannelSubscribe(localUsername, page) {
     // Get user ID.
     socket.request({
         url: '/api/v1/channels/' + localUsername + '?fields=userId',
@@ -154,7 +154,7 @@ function multiChannelSubscribe(localUsername) {
             var userID = body.userId;
             localStorage.setItem('userID', userID);
             socket.request({
-                url: '/api/v1/users/' + userID + '/follows',
+                url: '/api/v1/users/' + userID + '/follows?limit=50&page='+page,
                 method: 'get'
             }, function(body, response) {
                 if (response.statusCode == 200) {
@@ -202,6 +202,13 @@ function multiChannelSubscribe(localUsername) {
                             };
                         }
                     });
+
+		            // If the number of results equals 50, then we need to check the next page for new items.
+		            // Otherwise, we've cycled through all of their followers.
+			        if(body.length === 50){
+		            	var pageCount = parseInt(page, 10) + 1;
+		            	multiChannelSubscribe(localUsername, pageCount);
+		            }
 
                 } else {
                     console.error('Error getting the follower list.');
@@ -331,11 +338,12 @@ function buildChannel(channelID, username, title, game, partnered, followers) {
 }
 
 // Displays an alert if a new channel comes online that isn't already shown.
-function jumperUpdate() {
+function jumperUpdate(page) {
+
     var userID = localStorage.getItem('userID');
     if (userID !== '' && userID !== undefined && userID !== null){
         socket.request({
-            url: '/api/v1/users/' + userID + '/follows',
+            url: '/api/v1/users/' + userID + '/follows?limit=50&page='+page,
             method: 'get'
         }, function(body, response) {
             if (response.statusCode == 200) {
@@ -392,6 +400,14 @@ function jumperUpdate() {
                         $('.'+cName+'-notification').remove();
                     }
                 });
+
+	            // If the number of results equals 50, then we need to check the next page for new items.
+	            // Otherwise, we've cycled through all of their followers.
+	            if(body.length === 50){
+	            	var pageCount = parseInt(page, 10) + 1;
+	            	console.log("Finished page "+page+" moving on to page "+pageCount+".");
+	            	jumperUpdate(pageCount);
+	            }
 
                 /* 
                 // Debug - return channels we're subbed to.
@@ -492,7 +508,7 @@ $(document).ready(function() {
 
     // Run notification
     setInterval(function(){
-        jumperUpdate();
+        jumperUpdate(0);
     }, 60000)
 
     // Settings Menu
