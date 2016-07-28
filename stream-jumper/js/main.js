@@ -154,7 +154,7 @@ function multiChannelSubscribe(localUsername, page) {
             var userID = body.userId;
             localStorage.setItem('userID', userID);
             socket.request({
-                url: '/api/v1/users/' + userID + '/follows?limit=50&page='+page,
+                url: '/api/v1/users/' + userID + '/follows?limit=50&where=online:eq:1&page='+page,
                 method: 'get'
             }, function(body, response) {
                 if (response.statusCode == 200) {
@@ -343,7 +343,7 @@ function jumperUpdate(page) {
     var userID = localStorage.getItem('userID');
     if (userID !== '' && userID !== undefined && userID !== null){
         socket.request({
-            url: '/api/v1/users/' + userID + '/follows?limit=50&page='+page,
+            url: '/api/v1/users/' + userID + '/follows?limit=50&where=online:eq:1&page='+page,
             method: 'get'
         }, function(body, response) {
             if (response.statusCode == 200) {
