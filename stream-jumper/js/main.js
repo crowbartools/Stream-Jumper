@@ -173,33 +173,31 @@ function multiChannelSubscribe(localUsername, page) {
                             var cPartnered = element.partnered;
                             var cFollowers = element.numFollowers;
 
-                            if (element.online === true) {
-                                // Sub to channel updates for all followed channels.
-                                var updateSlug = ["channel:" + channelID + ":update"];
-                                socket.request({
-                                    url: '/api/v1/live',
-                                    method: 'put',
-                                    params: {
-                                        slug: updateSlug
-                                    }
-                                }, function(body, response) {
-                                    if (response.statusCode == 200) {
-                                        socket.on(updateSlug, function(data) {
-                                            // Debug to log all events for all channels.
-                                            // console.log(data, cName);
-                                            onChannelUpdate(channelID, cName, cTitle, cGame, data, cPartnered);
-                                        });
-                                    } else if (response.statusCode == 420) {
-                                        console.error('Error: Too many subscriptions.');
-                                        $('#' + channelID + ' .stream-notice').text('No updates.');
-                                    } else {
-                                        console.error('There was an error subbing to the channel update event.', cName, response.statusCode);
-                                    }
-                                });
+                            // Sub to channel updates for all followed channels.
+                            var updateSlug = ["channel:" + channelID + ":update"];
+                            socket.request({
+                                url: '/api/v1/live',
+                                method: 'put',
+                                params: {
+                                    slug: updateSlug
+                                }
+                            }, function(body, response) {
+                                if (response.statusCode == 200) {
+                                    socket.on(updateSlug, function(data) {
+                                        // Debug to log all events for all channels.
+                                        // console.log(data, cName);
+                                        onChannelUpdate(channelID, cName, cTitle, cGame, data, cPartnered);
+                                    });
+                                } else if (response.statusCode == 420) {
+                                    console.error('Error: Too many subscriptions.');
+                                    $('#' + channelID + ' .stream-notice').text('No updates.');
+                                } else {
+                                    console.error('There was an error subbing to the channel update event.', cName, response.statusCode);
+                                }
+                            });
 
-                                // If the channel is online then go ahead and build it.
-                                buildChannel(channelID, cName, cTitle, cGame, cPartnered, cFollowers);
-                            };
+                            // If the channel is online then go ahead and build it.
+                            buildChannel(channelID, cName, cTitle, cGame, cPartnered, cFollowers);
                         }
                     });
 
