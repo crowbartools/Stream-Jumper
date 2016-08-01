@@ -1,4 +1,3 @@
-
 function clickEvents() {
 
     $('body').click(function(e) {
@@ -7,9 +6,9 @@ function clickEvents() {
         var Elem = e.target;
 
         // Add Online Streamer
-        if($(Elem).hasClass('addonline')){
+        if ($(Elem).hasClass('addonline')) {
             var username = $(Elem).attr('name');
-            console.log('Clicked online for '+username);
+            console.log('Clicked online for ' + username);
             singleChannelSubscribe(username)
         }
 
@@ -19,7 +18,7 @@ function clickEvents() {
             var localUsername = $('.followeradd').val();
             if (localUsername !== '') {
                 localStorage.setItem("username", localUsername);
-                $.getJSON("https://beam.pro/api/v1/channels/"+localUsername+"?fields=userId", function(body) {
+                $.getJSON("https://beam.pro/api/v1/channels/" + localUsername + "?fields=userId", function(body) {
                     var userID = body.userId;
                     localStorage.setItem('userID', userID);
                     jumperUpdate(0);
@@ -67,11 +66,11 @@ function clickEvents() {
 function singleChannelSubscribe(username) {
     $.getJSON('https://beam.pro/api/v1/channels/' + username + '?fields=id,online,token,name,type,partnered,numFollowers', function(body, response) {
         // If response recieved and the div isn't already on the page.
-        if ( $('.' + body.token).length === 0 ) {
+        if ($('.' + body.token).length === 0) {
             var channelID = body.id;
             var cName = body.token;
             var cTitle = body.name;
-			if (body.type !== null && body.type !== undefined && body.type !== "") {
+            if (body.type !== null && body.type !== undefined && body.type !== "") {
                 var cGame = body.type.name;
             } else {
                 var cGame = "No Game Set";
@@ -99,7 +98,7 @@ function multiChannelSubscribe(localUsername, page) {
         // Get list of people user follows.
         var userID = body.userId;
         localStorage.setItem('userID', userID);
-        $.getJSON('https://beam.pro/api/v1/users/' + userID + '/follows?limit=50&where=online:eq:1&page='+page, function(body, response) {
+        $.getJSON('https://beam.pro/api/v1/users/' + userID + '/follows?limit=50&where=online:eq:1&page=' + page, function(body, response) {
             // Loop through list.
             $.each(body, function(index, element) {
                 // If channel not suspended and they aren't already on the page...
@@ -122,9 +121,9 @@ function multiChannelSubscribe(localUsername, page) {
 
             // If the number of results equals 50, then we need to check the next page for new items.
             // Otherwise, we've cycled through all of their followers.
-	        if(body.length === 50){
-            	var pageCount = parseInt(page, 10) + 1;
-            	multiChannelSubscribe(localUsername, pageCount);
+            if (body.length === 50) {
+                var pageCount = parseInt(page, 10) + 1;
+                multiChannelSubscribe(localUsername, pageCount);
             }
         });
     });
@@ -182,15 +181,15 @@ function buildChannel(channelID, username, title, game, partnered, followers) {
 function jumperUpdate(page) {
 
     var userID = localStorage.getItem('userID');
-    if (userID !== '' && userID !== undefined && userID !== null){
-        $.getJSON('https://beam.pro/api/v1/users/' + userID + '/follows?limit=50&where=online:eq:1&page='+page, function(body, response) {
+    if (userID !== '' && userID !== undefined && userID !== null) {
+        $.getJSON('https://beam.pro/api/v1/users/' + userID + '/follows?limit=50&where=online:eq:1&page=' + page, function(body, response) {
             // Loop through list.
             $.each(body, function(index, element) {
                 var cName = element.token;
                 var partnered = element.partnered;
-                if (partnered === true){
+                if (partnered === true) {
                     var partnered = "partner-notification";
-                }else{
+                } else {
                     var partnered = "regular-notification";
                 }
 
@@ -200,70 +199,72 @@ function jumperUpdate(page) {
                 // If channel not suspended and they aren't already on the page...
                 if (element.suspended !== true && $('#' + element.id).length === 0 && element.online === true) {
                     // Add line to notification box
-                    if ( $('.'+cName+'-notification').length < 1){
-                        $('.notification').prepend('<div class="'+cName+'-notification notification-name"><button class="addonline" name="'+cName+'">Add</button><span class="'+partnered+'">'+cName+'</span><span class="notification-new">New</span></div>');
+                    if ($('.' + cName + '-notification').length < 1) {
+                        $('.notification').prepend('<div class="' + cName + '-notification notification-name"><button class="addonline" name="' + cName + '">Add</button><span class="' + partnered + '">' + cName + '</span><span class="notification-new">New</span></div>');
                     }
 
                     // If menu is not opened then add a notification alert.
-                    if ( $('.menu-link.active').length === 0 ){
+                    if ($('.menu-link.active').length === 0) {
                         // Update notification number to match number of new notifications.
-                        var notificationNumber = parseInt( $('.menu-notification-alert').html() );
+                        var notificationNumber = parseInt($('.menu-notification-alert').html());
                         var notificationList = $('.notification .notification-new').length;
-                        if(notificationNumber !== notificationList){
+                        if (notificationNumber !== notificationList) {
                             $('.menu-notification-alert').text(notificationList);
                             $('.menu-notification-alert').fadeIn('fast');
                         }
                     }
 
                     // Show scroll bar once notification area hits 600 px tall.
-                    if ( $('.notification').height() >= 400){
-                        $('.notification').css('overflow-y','scroll');
-                    } else{
-                        $('.notification').css('overflow-y','hidden');
+                    if ($('.notification').height() >= 400) {
+                        $('.notification').css('overflow-y', 'scroll');
+                    } else {
+                        $('.notification').css('overflow-y', 'hidden');
                     }
 
                     // Throw in the add all button if people are online and local username is set.
                     var localUser = localStorage.getItem('username');
                     var onlinePeople = $('.notification-name').length;
-                    if ( localUser !== undefined && localUser !== '' && $('.addallbutton').is('visible') === false && onlinePeople > 2){
+                    if (localUser !== undefined && localUser !== '' && $('.addallbutton').is('visible') === false && onlinePeople > 2) {
                         $('.addallbutton').fadeIn('fast');
                     } else {
                         $('.addallbutton').fadeOut('fast');
                     }
 
-                } else if ( $('#' + element.id).length > 0 && element.online === false ) {
+                } else if ($('#' + element.id).length > 0 && element.online === false) {
 
                     // Remove their line from the notification box.
-                    $('.'+cName+'-notification').remove();
+                    $('.' + cName + '-notification').remove();
                 }
             });
 
             // If the number of results equals 50, then we need to check the next page for new items.
             // Otherwise, we've cycled through all of their followers.
-            if(body.length === 50){
-            	var pageCount = parseInt(page, 10) + 1;
-            	console.log("Finished page "+page+" moving on to page "+pageCount+".");
-            	jumperUpdate(pageCount);
+            if (body.length === 50) {
+                var pageCount = parseInt(page, 10) + 1;
+                console.log("Finished page " + page + " moving on to page " + pageCount + ".");
+                jumperUpdate(pageCount);
             }
         });
     }
 }
 
 // Navigation Open and Closed Triggers
-function navOpen(){
+function navOpen() {
     // When menu is opened, clear alert number and hide alert.
     $('.menu-notification-alert').text('0');
     $('.menu-notification-alert').hide();
 }
-function navClosed(){
+
+function navClosed() {
     // Remove new notification in notification list.
     $('.notification-new').remove();
 }
-function stickyHeader(){
+
+function stickyHeader() {
     $(window).scroll(function() {
-        if ($(this).scrollTop() > 1){  
+        if ($(this).scrollTop() > 1) {
             $('.top').addClass("sticky");
-        }else{
+        } else {
             $('.top').removeClass("sticky");
         }
     });
@@ -271,7 +272,7 @@ function stickyHeader(){
 
 
 $(document).ready(function() {
-	clickEvents();
+    clickEvents();
 
     // Load up past username.
     var localUsername = localStorage.getItem('username');
@@ -283,7 +284,7 @@ $(document).ready(function() {
     });
 
     // Run notification
-    setInterval(function(){
+    setInterval(function() {
         jumperUpdate(0);
     }, 60000)
 
@@ -291,10 +292,10 @@ $(document).ready(function() {
     $('.menu-link').bigSlide({
         easyClose: true,
         state: 'open',
-        afterOpen: function(){
+        afterOpen: function() {
             navOpen();
         },
-        afterClose: function(){
+        afterClose: function() {
             navClosed();
         }
     });
