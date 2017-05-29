@@ -18,7 +18,7 @@ function clickEvents() {
             var localUsername = $('.followeradd').val();
             if (localUsername !== '') {
                 localStorage.setItem("username", localUsername);
-                $.getJSON("https://beam.pro/api/v1/channels/" + localUsername + "?fields=userId", function(body) {
+                $.getJSON("https://Mixer.com/api/v1/channels/" + localUsername + "?fields=userId", function(body) {
                     var userID = body.userId;
                     localStorage.setItem('userID', userID);
                     jumperUpdate(0);
@@ -64,7 +64,7 @@ function clickEvents() {
 }
 
 function singleChannelSubscribe(username) {
-    $.getJSON('https://beam.pro/api/v1/channels/' + username + '?fields=id,online,token,name,type,partnered,numFollowers', function(body, response) {
+    $.getJSON('https://Mixer.com/api/v1/channels/' + username + '?fields=id,online,token,name,type,partnered,numFollowers', function(body, response) {
         // If response recieved and the div isn't already on the page.
         if ($('.' + body.token).length === 0) {
             var channelID = body.id;
@@ -94,11 +94,11 @@ function singleChannelSubscribe(username) {
 
 function multiChannelSubscribe(localUsername, page) {
     // Get user ID.
-    $.getJSON('https://beam.pro/api/v1/channels/' + localUsername + '?fields=userId', function(body, response) {
+    $.getJSON('https://Mixer.com/api/v1/channels/' + localUsername + '?fields=userId', function(body, response) {
         // Get list of people user follows.
         var userID = body.userId;
         localStorage.setItem('userID', userID);
-        $.getJSON('https://beam.pro/api/v1/users/' + userID + '/follows?limit=50&where=online:eq:1&page=' + page, function(body, response) {
+        $.getJSON('https://Mixer.com/api/v1/users/' + userID + '/follows?limit=50&where=online:eq:1&page=' + page, function(body, response) {
             // Loop through list.
             $.each(body, function(index, element) {
                 // If channel not suspended and they aren't already on the page...
@@ -141,13 +141,13 @@ function buildChannel(channelID, username, title, game, partnered, followers) {
     }
     // If channel is not already on the page...
     if ($('#' + channelID).length === 0) {
-        var streamEmbed = "https://beam.pro/embed/player/" + username;
-        var chatEmbed = "https://beam.pro/embed/chat/" + username;
+        var streamEmbed = "https://Mixer.com/embed/player/" + username;
+        var chatEmbed = "https://Mixer.com/embed/chat/" + username;
 
         // Build out the stream on the page.
         $('.channelwrapper').append('<div id="' + channelID + '" stream="' + username + '" followers="' + followers + '" class="stream" style="display:none"><div class="streambar"><div class="stream-notice" style="display:none"></div><div class="closestream"><button class="closebtn" stream="' + channelID + '">X</button></div></div><div class="streamtop"><div class="streamname"><h2 class="' + partnered + '"></h2></div><div class="cGame"></div><div class="cTitle"></div></div><div class="chatwrap"></div></div>');
-        $('#' + channelID + ' .chatwrap').html('<iframe class="chatembed" src="https://beam.pro/embed/chat/' + username + '"></iframe>');
-        $('#' + channelID + ' .streamtop h2').html('<a href="https://beam.pro/' + username + '" target="_blank">' + username + '</a>');
+        $('#' + channelID + ' .chatwrap').html('<iframe class="chatembed" src="https://Mixer.com/embed/chat/' + username + '"></iframe>');
+        $('#' + channelID + ' .streamtop h2').html('<a href="https://Mixer.com/' + username + '" target="_blank">' + username + '</a>');
         $('#' + channelID + ' .cGame').text(game);
         $('#' + channelID + ' .cTitle').text(title);
         $('#' + channelID + ' .streamtop').append('<button class="watch" stream="' + username + '">Watch</button>');
@@ -155,7 +155,7 @@ function buildChannel(channelID, username, title, game, partnered, followers) {
 
         // Watch Button to watch streams..
         $('#' + channelID + ' .watch').click(function() {
-            $('#' + channelID).before('<div stream="' + channelID + '" stream="' + username + '" class="stream streamembed"><div class="streambar"><div class="stream-notice" style="display:none"></div><div class="closestreamembed"><button class="closebtn" stream="' + channelID + '">X</button></div></div><div class="streamtop"><div class="streamname"><h2 class="' + partnered + '"><a href="http://www.beam.pro/' + username + '" target="_blank">' + username + '</a></h2></div><div class="cGame"></div><div class="cTitle"></div></div><div class="streamwrap"><iframe src="https://beam.pro/embed/player/' + username + '"></iframe></div></div>');
+            $('#' + channelID).before('<div stream="' + channelID + '" stream="' + username + '" class="stream streamembed"><div class="streambar"><div class="stream-notice" style="display:none"></div><div class="closestreamembed"><button class="closebtn" stream="' + channelID + '">X</button></div></div><div class="streamtop"><div class="streamname"><h2 class="' + partnered + '"><a href="http://www.Mixer.com/' + username + '" target="_blank">' + username + '</a></h2></div><div class="cGame"></div><div class="cTitle"></div></div><div class="streamwrap"><iframe src="https://Mixer.com/embed/player/' + username + '"></iframe></div></div>');
 
             // Set height of chat window to the same height as the video..
             var newHeight = $('.streamembed[stream="' + channelID + '"] iframe').height();
@@ -182,7 +182,7 @@ function jumperUpdate(page) {
 
     var userID = localStorage.getItem('userID');
     if (userID !== '' && userID !== undefined && userID !== null) {
-        $.getJSON('https://beam.pro/api/v1/users/' + userID + '/follows?limit=50&where=online:eq:1&page=' + page, function(body, response) {
+        $.getJSON('https://Mixer.com/api/v1/users/' + userID + '/follows?limit=50&where=online:eq:1&page=' + page, function(body, response) {
             // Loop through list.
             $.each(body, function(index, element) {
                 var cName = element.token;
