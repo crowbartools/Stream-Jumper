@@ -214,12 +214,8 @@ function jumperUpdate(page) {
                         }
                     }
 
-                    // Show scroll bar once notification area hits 600 px tall.
-                    if ($('.notification').height() >= 400) {
-                        $('.notification').css('overflow-y', 'scroll');
-                    } else {
-                        $('.notification').css('overflow-y', 'hidden');
-                    }
+                    // Show scroll bar
+                    $('.notification').css('overflow-y', 'scroll');
 
                     // Throw in the add all button if people are online and local username is set.
                     var localUser = localStorage.getItem('username');
