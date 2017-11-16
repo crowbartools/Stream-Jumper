@@ -8,26 +8,27 @@ Vue.component('friend-list-item', {
         }
     },
     template: `
-        <li class="media">
-            <div class="thumbnail mr-3" @mouseover="hover = true" @mouseleave="hover = false, videoReady = false">
+        <li>
+            <div class="thumbnail" @mouseover="hover = true" @mouseleave="hover = false, videoReady = false">
                 <img v-bind:src="channelImgUrl" v-show="videoReady === false">
                 <video autoplay="true" loop="true" @canplay="if(hover) { videoReady = true }" v-if="hover === true" v-show="videoReady === true" v-bind:src="channelVidUrl">                   
                 </video>
-            </div>
-            <div class="friend-list-item-info media-body">
-                <div class="stream-token">
-                    {{stream.token}}
+                <div class="friend-header">
+                    <span class="friendName">{{stream.token}}</span>
+                    <span class="friendViewers">{{stream.viewersCurrent}}</span>
                 </div>
+            </div>
+            <div class="info-container">
                 <div class="stream-game">
                     {{channelGame}}
                 </div>
                 <div class="stream-title">
                     {{channelTitle}}
                 </div>
-                <div class="stream-buttons">
-                    <button class="btn btn-primary" v-on:click="addFriend" v-bind:data='channelToken' v-show="friendCheck(channelToken) === false">Add</button>
-                    <button class="btn btn-danger" v-on:click="removeFriend" v-bind:data='channelToken' v-show="friendCheck(channelToken)">Remove</button>
-                </div>
+            </div>
+            <div class="stream-buttons">
+                <button class="btn btn-primary" v-on:click="addFriend" v-bind:data='channelToken' v-show="friendCheck(channelToken) === false">Add</button>
+                <button class="btn btn-danger" v-on:click="removeFriend" v-bind:data='channelToken' v-show="friendCheck(channelToken)">Remove</button>
             </div>
         </li>
     `,
@@ -96,6 +97,10 @@ Vue.component('settings-modal', {
                     </div>
 
                     <div class="modal-body">
+                        <div class="onlineLabel">
+                            <span class="setting-title">Online Friends</span>
+                            <button class="btn btn-primary" @click="$emit('add-all-friends')">Add All</button>
+                        </div>
                         <slot name="friendList">No Friends!</slot>
                     </div>
 

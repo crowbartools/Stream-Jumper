@@ -5,8 +5,8 @@ Vue.component('stream-tile', {
             <div class="stream-top">
                 <button class="btn btn-danger" v-on:click="removeFriend" v-bind:data='channelToken'>X</button>
             </div>
-            <div class="stream-info">
-                <div>
+            <div class="stream-info p-2">
+                <div class="streamToken" v-bind:partner="channelPartner">
                     <a v-bind:href="channelLink" target="_blank">{{stream.token}}</a>
                 </div>
                 <div>
@@ -26,6 +26,9 @@ Vue.component('stream-tile', {
         }
     },
 	computed: {
+        channelPartner: function(){
+            return `${this.stream.partnered}`;
+        },
         channelChatUrl: function() {
             return `https://mixer.com/embed/chat/${this.stream.id}`;
         },

@@ -16,14 +16,18 @@ new Vue({
 			return new Promise((resolve, reject) => {
 				var app = this;
 				var username = this.user;
-				app.outputMixerFollows(username)
+				if(username != null){
+					app.outputMixerFollows(username)
 					.then((res) => {
-                        app.friends = res;
+						app.friends = res;
 						resolve(true);
 					}, (err) => {
 						console.log(err);
 						reject(false);
                     });
+				} else {
+					reject(false);
+				}
 			});
 		},
 		addFriend: function(friend){
@@ -38,6 +42,10 @@ new Vue({
 			let obj = arr.find(o => o.token === friend);
 			let index = arr.indexOf(obj);
 			arr.splice(index, 1);
+		},
+		addAllFriends: function(){
+			let app = this;
+			this.friendsShown = this.friends;
 		}
     },
 	mounted: function() {
