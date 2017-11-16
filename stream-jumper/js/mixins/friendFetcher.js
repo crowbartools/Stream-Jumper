@@ -35,7 +35,7 @@ friendFetcher = {
 				console.log('Trying page '+page+' of follows for userId '+userId);
 
 				var request = new XMLHttpRequest();
-				request.open('GET', 'https://mixer.com/api/v1/users/'+userId+'/follows?fields=id,online,name,token,viewersCurrent,partnered,costreamId,interactive,type&where=online:eq:true&order=viewersCurrent:desc&limit=250&page='+page, true);
+				request.open('GET', 'https://mixer.com/api/v1/users/'+userId+'/follows?fields=id,online,name,token,viewersCurrent,partnered,costreamId,interactive,type&where=online:eq:true&order=token:ASC&limit=250&page='+page, true);
 
 				request.onload = function() {
 					if (request.status >= 200 && request.status < 400) {
