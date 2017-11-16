@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Stream Jumper for Mixer.com</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="./css/main.css" media="screen" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script src="https://unpkg.com/vue"></script>
+  </head>
+  <body>
+    <div id="app">
+      <nav>
+        <button id="show-modal" @click="showSettings = true" v-on:click="fetchFriends" class="btn btn-primary">Show Settings</button>
+      </nav>
+      <div class="content">
+        <div class="streams d-flex flex-row flex-wrap">
+          <stream-tile
+            class="p-2"
+            v-for='stream in friendsShown'
+            v-bind:stream='stream'
+            v-bind:key='stream.token'
+            v-on:remove-friend="removeFriend"
+            >
+          </stream-tile>
+        </div>
+      </div>
+
+      <settings-modal v-if="showSettings" @close="showSettings = false">
+        <ul class="onlineFriendsList" slot="friendList">
+          <friend-list-item
+              v-for='stream in friends'
+              v-bind:stream='stream'
+              v-bind:key='stream.token'
+              v-bind:shown='friendsShown'
+              v-on:add-friend="addFriend"
+              v-on:remove-friend="removeFriend"
+          >
+          </friend-list-item>
+        </ul>
+      </settings-modal>
+    </div><!-- End App-->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    
+    <script src="./js/components/settings-modal.js"></script>
+    <script src="./js/components/stream-tile.js"></script>
+    <script src="./js/mixins/friendFetcher.js"></script>
+    <script src="./js/main.js"></script>
+  </body>
+</html>
