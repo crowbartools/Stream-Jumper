@@ -32,19 +32,20 @@ new Vue({
 		},
 		addFriend: function(friend){
 			let app = this;
-			let arr = app.friends;
+			let arr = this.friends;
 			let obj = arr.find(o => o.token === friend);
 			this.friendsShown.push(obj);
 		},
 		removeFriend: function(friend){
 			let app = this;
-			let arr = app.friendsShown;
+			let arr = this.friendsShown;
 			let obj = arr.find(o => o.token === friend);
 			let index = arr.indexOf(obj);
 			arr.splice(index, 1);
 		},
 		addAllFriends: function(){
 			let app = this;
+			this.showSettings = false;
 			this.friendsShown = this.friends;
 		}
     },

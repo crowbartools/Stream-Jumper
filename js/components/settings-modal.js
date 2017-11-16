@@ -90,7 +90,7 @@ Vue.component('settings-modal', {
             <div class="modal-wrapper">
                 <div class="modal-container">
                     <div class="modal-header">
-                        Settings
+                        <h2>Settings</h2>
                         <button class="modal-default-button btn btn-danger" @click="$emit('close')">
                             X
                         </button>
@@ -101,7 +101,9 @@ Vue.component('settings-modal', {
                             <span class="setting-title">Online Friends</span>
                             <button class="btn btn-primary" @click="$emit('add-all-friends')">Add All</button>
                         </div>
-                        <slot name="friendList">No Friends!</slot>
+                        <div class="online-friends">
+                            <slot name="friendList">No Friends!</slot>
+                        </div>
                     </div>
 
                     <div class="modal-footer">

@@ -8,7 +8,7 @@ $partner-purple: #c642ea;
 
 
 body{
-    background-color: #20293f;
+    background-color: #20293f - 30%;
     padding:0px;
     margin:0px;
 }
@@ -60,9 +60,11 @@ body{
             margin-bottom:1em;
             padding-bottom:1em;
             width:100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            div{
+                overflow:hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
             .streamToken{
                 a{
                     font-size:1.2em;
@@ -101,7 +103,7 @@ body{
     vertical-align: middle;
   
     .modal-container {
-        width: 50%;
+        width: 75%;
         margin: 0px auto;
         padding: 20px 30px;
         background-color: #fff;
@@ -127,7 +129,7 @@ body{
             height:600px;
             overflow-y: scroll;
             li{
-                width:47%;
+                width:31%;
                 margin:1% 1% 0% 1%;
                 padding:1%;
                 background-color: $stream-tile-bg;
@@ -161,7 +163,7 @@ body{
                     width:100%;
                     padding: .25em;
                     display:inline-block;
-                    font-size:.8em;
+                    font-size:1em;
                     margin-bottom:.5em;
                 }
                 .info-container div{

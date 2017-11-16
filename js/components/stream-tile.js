@@ -9,10 +9,10 @@ Vue.component('stream-tile', {
                 <div class="streamToken" v-bind:partner="channelPartner">
                     <a v-bind:href="channelLink" target="_blank">{{stream.token}}</a>
                 </div>
-                <div>
+                <div class="streamGame">
                     {{channelGame}}
                 </div>
-                <div>
+                <div class="streamTitle">
                     {{channelTitle}}
                 </div>
             </div>
