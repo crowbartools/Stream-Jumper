@@ -1,0 +1,11 @@
+
+
+.content{
+    display:flex;
+    flex-wrap: row;
+    .stream{
+        width:25%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
