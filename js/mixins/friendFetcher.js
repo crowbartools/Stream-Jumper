@@ -45,7 +45,8 @@ friendFetcher = {
 						// Loop through data and throw in array.
 						for (friend of data){
 							// Set defaults not included in mixer data.
-							friend.watchVideo = false
+							friend.watchVideo = false;
+							friend.offlineStrikes = 0;
 
 							// Add to array
 							followList.push(friend);

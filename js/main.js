@@ -12,7 +12,7 @@ new Vue({
 			return this.getMixerId();
 		},
         fetchFriends: function() {
-			console.log('Making some friends...');
+			console.log('Making some friends and cleaning up.');
 			return new Promise((resolve, reject) => {
 				var app = this;
 				var username = this.user;
@@ -24,7 +24,10 @@ new Vue({
 					}, (err) => {
 						console.log(err);
 						reject(false);
-                    });
+					});
+					
+					// Run cleanup.
+					this.cleanStreams();
 				} else {
 					reject('No user logged in. Skipping api call.');
 				}
@@ -66,10 +69,36 @@ new Vue({
 			this.friends = [];
 			this.friendsShown = [];
 			this.fetchFriends();
+		},
+		cleanStreams: function(){
+			let app = this;
+			// Cycle through friends that are showing.
+			for(friend in this.friendsShown){
+				friend = this.friendsShown[friend];
+				let friendsArray = this.friends;
+
+				// If friend is showing, but not in main friends array then they are offline.
+				let obj = friendsArray.find(o => o.token === friend.token);
+
+				// If they have been offline for more than 5 minutes, remove them.
+				// Else, count up one.
+				if(obj.offlineStrikes > 5){
+					console.log(friend.token+' struck out. Removing them.');
+					let index = friendsShown.indexOf(obj);
+					arr.splice(index, 1);
+				} else {
+					if(obj.offlineStrikes > 0){
+						console.log(friend.token+' has '+obj.offlineStrikes+' so far.');
+						obj.offlineStrikes = obj.offlineStrikes + 1;
+					}
+				}
+			}			
 		}
     },
 	mounted: function() {
-		let app = this;
 		// When Vue is ready
+		setInterval(function(){ 
+			this.fetchFriends();
+		}.bind(this), 60000);
 	}
 })

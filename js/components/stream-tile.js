@@ -60,7 +60,6 @@ Vue.component('stream-tile', {
     },
 	computed: {
         watchStreamCheck: function(){
-            console.log(`${this.stream.watchVideo}`);
             return this.stream.watchVideo;
         },
         channelPartner: function(){
