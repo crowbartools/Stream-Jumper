@@ -15,7 +15,7 @@ friendFetcher = {
 					} else {
 					// We reached our target server, but it returned an error
 					// TODO: Display a message in the extension.
-						reject('Login at Mixer.com to see your online friends.');
+						reject(JSON.parse(request.responseText.message));
 					}
 				};
 
@@ -44,10 +44,13 @@ friendFetcher = {
 
 						// Loop through data and throw in array.
 						for (friend of data){
+							// Set defaults not included in mixer data.
+							friend.watchVideo = false
+
+							// Add to array
 							followList.push(friend);
 						}
 					
-						// If we hit 50 friends, cycle again because we've run out of friends on this api call.
 						resolve(followList);
 
 					} else {

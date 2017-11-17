@@ -32,12 +32,20 @@
             v-bind:stream='stream'
             v-bind:key='stream.token'
             v-on:remove-friend="removeFriend"
+            v-on:watch-stream="watchStream"
+            v-on:stop-stream="stopStream"
             >
           </stream-tile>
         </div>
       </div>
 
-      <settings-modal v-if="showSettings" @close="showSettings = false" v-on:add-all-friends="addAllFriends">
+      <settings-modal 
+        v-if="showSettings" 
+        @close="showSettings = false"
+        v-bind:username='user'
+        v-on:add-all-friends="addAllFriends"
+        v-on:update-username="updateUsername"
+      >
         <ul class="onlineFriendsList d-flex flex-row flex-wrap" slot="friendList">
           <friend-list-item
               v-for='stream in friends'

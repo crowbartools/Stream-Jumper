@@ -58,7 +58,6 @@ Vue.component('friend-list-item', {
         }
     },
 	computed: {
-        
         channelChatUrl: function() {
             return `https://mixer.com/embed/chat/${this.stream.id}`;
         },
@@ -84,6 +83,10 @@ Vue.component('friend-list-item', {
 });
 
 Vue.component('settings-modal', {
+    props: ['username'],
+    model:{
+        user: null
+    },
     template: `
         <transition name="modal">
             <div class="modal-mask">
@@ -97,12 +100,26 @@ Vue.component('settings-modal', {
                     </div>
 
                     <div class="modal-body">
-                        <div class="onlineLabel">
-                            <span class="setting-title">Online Friends</span>
-                            <button class="btn btn-primary" @click="$emit('add-all-friends')">Add All</button>
+                        <div class="setting">
+                            <div class="settingLabel">
+                                <span class="setting-title">User</span>
+                            </div>
+                            <div class="settingContent">
+                                <input v-bind:value='username' placeholder="Firebottle" v-on:input="updateUserModel($event.target.value)">
+                                <button class="btn btn-primary" @click='updateUsername'>Go!</button>
+                            </div>
                         </div>
-                        <div class="online-friends">
-                            <slot name="friendList">No Friends!</slot>
+
+                        <div class="setting" v-show="loggedInCheck">
+                            <div class="settingLabel">
+                                <span class="setting-title">Online Friends</span>
+                                <button class="btn btn-primary" @click="$emit('add-all-friends')">Add All</button>
+                            </div>
+                            <div class="settingContent">
+                                <div class="online-friends">
+                                    <slot name="friendList"></slot>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -113,5 +130,25 @@ Vue.component('settings-modal', {
             </div>
             </div>
         </transition>
-    `
+    `,
+    methods:{
+        updateUsername: function(e){
+            // This will add a friend to the list.
+            this.$emit('update-username', this.user);
+        },
+        updateUserModel: function(newName){
+            // This updates the component value to be passed on to main vue instance.
+            this.user = newName;
+        }
+    },
+	computed: {
+        loggedInCheck: function() {
+            // This checks if a user is logged in or not.
+            if(this.username != null && this.username !== ''){
+                return true;
+            } else {
+                return false;
+            }
+        }
+	}
 })

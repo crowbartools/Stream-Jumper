@@ -2,7 +2,7 @@ new Vue({
     el: '#app',
     mixins: [friendFetcher],
     data: {
-        user: 'Firebottle',
+        user: null,
 		friends: [],
 		friendsShown: [],
 		showSettings: false
@@ -26,7 +26,7 @@ new Vue({
 						reject(false);
                     });
 				} else {
-					reject(false);
+					reject('No user logged in. Skipping api call.');
 				}
 			});
 		},
@@ -47,11 +47,29 @@ new Vue({
 			let app = this;
 			this.showSettings = false;
 			this.friendsShown = this.friends;
+		},
+		watchStream: function(friend){
+			let app = this;
+			let arr = this.friendsShown;
+			let obj = arr.find(o => o.token === friend);
+			obj.watchVideo = true;
+		},
+		stopStream: function(friend){
+			let app = this;
+			let arr = this.friendsShown;
+			let obj = arr.find(o => o.token === friend);
+			obj.watchVideo = false;
+		},
+		updateUsername: function(username){
+			let app = this;
+			this.user = username;
+			this.friends = [];
+			this.friendsShown = [];
+			this.fetchFriends();
 		}
     },
 	mounted: function() {
 		let app = this;
 		// When Vue is ready
-		//app.fetchFriends(app.user);
 	}
 })
