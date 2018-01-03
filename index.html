@@ -26,7 +26,7 @@
         </div>
       </nav>
       <div class="content">
-        <div class="streams d-flex flex-row flex-wrap">
+        <draggable :list="friendsShown" class="streams d-flex flex-row flex-wrap dragArea">
           <stream-tile
             v-for='stream in friendsShown'
             v-bind:stream='stream'
@@ -36,7 +36,7 @@
             v-on:stop-stream="stopStream"
             >
           </stream-tile>
-        </div>
+        </draggable>
       </div>
 
       <settings-modal 
@@ -66,9 +66,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     
+    <script src="./js/plugins/Sortable.min.js"></script>
+    <script src="./js/plugins/vuedraggable.min.js"></script>
     <script src="./js/components/settings-modal.js"></script>
     <script src="./js/components/stream-tile.js"></script>
     <script src="./js/mixins/friendFetcher.js"></script>
     <script src="./js/main.js"></script>
+
   </body>
 </html>

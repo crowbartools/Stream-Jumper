@@ -48,6 +48,7 @@ body{
             background-color:$stream-top-bg;
             border-radius: 5px 5px 0px 0px;
             text-align:right;
+            cursor:move;
             .btn{
                 padding: .0rem .65rem;
             }
@@ -149,13 +150,21 @@ body{
         transition: all .3s ease;
         font-family: Helvetica, Arial, sans-serif;
 
-        .settingLabel{
-            margin-bottom:.5em;
-            .setting-title{
-                font-size:1.5em;
+        .setting{
+            margin-bottom:2em;
+            .settingLabel{
+                margin-bottom:.5em;
+                .setting-title{
+                    font-size:1.5em;
+                }
+                .btn{
+                    float:right;
+                }
             }
-            .btn{
-                float:right;
+            .usernameInput input{
+                border:1px solid black;
+                padding:5px;
+                border-radius:.25em;
             }
         }
 

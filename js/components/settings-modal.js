@@ -104,13 +104,13 @@ Vue.component('settings-modal', {
                             <div class="settingLabel">
                                 <span class="setting-title">User</span>
                             </div>
-                            <div class="settingContent">
+                            <div class="settingContent usernameInput">
                                 <input v-bind:value='username' placeholder="Firebottle" v-on:input="updateUserModel($event.target.value)">
                                 <button class="btn btn-primary" @click='updateUsername'>Go!</button>
                             </div>
                         </div>
 
-                        <div class="setting" v-show="loggedInCheck">
+                        <div class="setting friendsList" v-show="loggedInCheck">
                             <div class="settingLabel">
                                 <span class="setting-title">Online Friends</span>
                                 <button class="btn btn-primary" @click="$emit('add-all-friends')">Add All</button>
@@ -124,7 +124,7 @@ Vue.component('settings-modal', {
                     </div>
 
                     <div class="modal-footer">
-                        Footer
+                        
                     </div>
                 </div>
             </div>
