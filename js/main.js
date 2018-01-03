@@ -12,7 +12,6 @@ new Vue({
 			return this.getMixerId();
 		},
         fetchFriends: function() {
-			console.log('Making some friends and cleaning up.');
 			return new Promise((resolve, reject) => {
 				var app = this;
 				var username = this.user;
@@ -76,22 +75,29 @@ new Vue({
 			// Cycle through friends that are showing.
 			for(friend in this.friendsShown){
 				friend = this.friendsShown[friend];
-				let friendsArray = this.friends;
+				let friendsArray = this.friends,
+					friendsShownArray = this.friendsShown;
 
 				// If friend is showing, but not in main friends array then they are offline.
 				let obj = friendsArray.find(o => o.token === friend.token);
-
-				// If they have been offline for more than 5 minutes, remove them.
-				// Else, count up one.
-				if(obj.offlineStrikes > 5){
-					console.log(friend.token+' struck out. Removing them.');
-					let index = friendsShown.indexOf(obj);
-					arr.splice(index, 1);
-				} else if (obj.offlineStrikes > 0){
-					console.log(friend.token+' has '+obj.offlineStrikes+' so far.');
-					obj.offlineStrikes = obj.offlineStrikes + 1;
+				if(obj === null || obj === undefined){
+					// This person is offline.
+					if(friend.offlineStrikes > 5){
+						// Person has been offline for 5 checks (5 min roughly).
+						console.log(friend.token + ' has been offline for awhile. Removing them.');
+						let index = friendsShownArray.indexOf(friend);
+						friendsShownArray.splice(index, 1);
+					} else if (friend.offlineStrikes >= 0){
+						// Person has not struck out yet. Count up one.
+						console.log(friend.token + ' is offline and has ' + friend.offlineStrikes + ' strikes.');
+						friend.offlineStrikes = friend.offlineStrikes + 1;
+					} else {
+						// We don't have offline strikes yet for some reason. Set it to one.
+						friend.offlineStrikes = 1;
+					}
 				} else {
-					obj.offlineStrikes = 1;
+					// This person is online again! Set strikes to zero.
+					friend.offlineStrikes = 0;
 				}
 			}			
 		},
