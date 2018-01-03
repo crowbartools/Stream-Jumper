@@ -32,7 +32,7 @@ friendFetcher = {
 			return new Promise(function(resolve, reject) {
 			// To test a lot of follows, uncomment the line below.
 			// var userId = 313842;
-			
+
 				var request = new XMLHttpRequest();
 				request.open('GET', 'https://mixer.com/api/v1/users/'+userId+'/follows?fields=id,online,name,token,viewersCurrent,partnered,costreamId,interactive,type&where=online:eq:true&order=token:ASC&limit=250&page='+page, true);
 

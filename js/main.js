@@ -82,14 +82,14 @@ new Vue({
 				let obj = friendsArray.find(o => o.token === friend.token);
 				if(obj === null || obj === undefined){
 					// This person is offline.
-					if(friend.offlineStrikes > 5){
+					if(friend.offlineStrikes >= 5){
 						// Person has been offline for 5 checks (5 min roughly).
 						console.log(friend.token + ' has been offline for awhile. Removing them.');
 						let index = friendsShownArray.indexOf(friend);
 						friendsShownArray.splice(index, 1);
 					} else if (friend.offlineStrikes >= 0){
 						// Person has not struck out yet. Count up one.
-						console.log(friend.token + ' is offline and has ' + friend.offlineStrikes + ' strikes.');
+						console.log(friend.token + ' is offline and has ' + friend.offlineStrikes + '/5 strikes.');
 						friend.offlineStrikes = friend.offlineStrikes + 1;
 					} else {
 						// We don't have offline strikes yet for some reason. Set it to one.
