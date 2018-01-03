@@ -87,11 +87,11 @@ new Vue({
 					console.log(friend.token+' struck out. Removing them.');
 					let index = friendsShown.indexOf(obj);
 					arr.splice(index, 1);
+				} else if (obj.offlineStrikes > 0){
+					console.log(friend.token+' has '+obj.offlineStrikes+' so far.');
+					obj.offlineStrikes = obj.offlineStrikes + 1;
 				} else {
-					if(obj.offlineStrikes > 0){
-						console.log(friend.token+' has '+obj.offlineStrikes+' so far.');
-						obj.offlineStrikes = obj.offlineStrikes + 1;
-					}
+					obj.offlineStrikes = 1;
 				}
 			}			
 		},
