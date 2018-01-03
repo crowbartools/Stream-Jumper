@@ -69,6 +69,7 @@ new Vue({
 			this.friends = [];
 			this.friendsShown = [];
 			this.fetchFriends();
+			this.setStorage('username', username, 30);
 		},
 		cleanStreams: function(){
 			let app = this;
@@ -93,10 +94,31 @@ new Vue({
 					}
 				}
 			}			
+		},
+		setStorage: function(name, value){
+			localStorage.setItem(name, value);
+		},
+		getStorage: function(name){
+			let savedValue = localStorage.getItem(name);
+			if(savedValue != null){
+				return savedValue
+			}
+			return null;
+		},
+		setStorageUsername: function(){
+			// This will set the username in the app based on saved cookies from past sessions.
+			let savedName = this.getStorage('username');
+			console.log(savedName);
+			if(savedName != null){
+				this.user = savedName;
+			}
 		}
     },
 	mounted: function() {
 		// When Vue is ready
+		this.setStorageUsername();
+
+		// Friend loop
 		setInterval(function(){ 
 			this.fetchFriends();
 		}.bind(this), 60000);

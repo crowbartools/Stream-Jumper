@@ -39,6 +39,10 @@ body{
         border-radius: 5px;
         margin:1em;
         color:white;
+        max-width: 50%;
+        @media all and (max-width:800px){
+            max-width:100%;
+        }
 
         .stream-top{
             background-color:$stream-top-bg;
