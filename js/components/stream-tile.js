@@ -87,7 +87,7 @@ Vue.component('stream-tile', {
             return `${this.stream.token}`;
         },
         channelEmbed: function(){
-            return `https://mixer.com/embed/player/${this.stream.id}`
+            return `https://mixer.com/embed/player/${this.stream.id}?disableCostream=1`
         }
 	}
 })
