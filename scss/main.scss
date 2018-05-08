@@ -1,0 +1,238 @@
+$stream-tile-bg: #0e162a;
+$stream-tile-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+$stream-top-bg: #2a2f42;
+$stream-info-bg: #161c34;
+
+$regular-blue: #37aad5;
+$partner-purple: #c642ea;
+
+
+body{
+    background-color: #20293f - 30%;
+    padding:0px;
+    margin:0px;
+}
+
+.navbar{
+    a{
+        color: $regular-blue;
+    }
+    .navbar-brand{
+        text-transform: uppercase;
+    }
+}
+
+.content{
+    .streams{
+        width:100%;
+        display:flex;
+        flex-direction:row;
+        flex-wrap:wrap;
+    }
+    .stream{
+        flex: 1 1 400px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background-color: $stream-tile-bg;
+        box-shadow: $stream-tile-box-shadow;
+        border:2px solid transparent;
+        border-radius: 5px;
+        margin:1em;
+        color:white;
+        max-width: 50%;
+        @media all and (max-width:800px){
+            max-width:100%;
+        }
+
+        .stream-top{
+            background-color:$stream-top-bg;
+            border-radius: 5px 5px 0px 0px;
+            text-align:right;
+            cursor:move;
+            .btn{
+                padding: .0rem .65rem;
+            }
+        }
+
+        .stream-info{
+            background-color: $stream-info-bg;
+            border-bottom:1px solid gray;
+            padding-bottom:1em;
+            width:100%;
+            div{
+                overflow:hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .streamToken{
+                a{
+                    font-size:1.2em;
+                    font-weight:bold;
+                    color: $regular-blue;
+                }
+                &[partner="true"] a{
+                    color:$partner-purple;
+                }
+            }
+        }
+        
+        .streamContent{
+            .thumbnail {
+                width:100%;
+                position: relative;
+                display:inline-block;
+                vertical-align: top;
+                &:after{
+                    padding-top: 56.25%;
+                    display: block;
+                    content: '';
+                }
+                img, video{
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    right: 0;
+                    left: 0;
+                    width:100%;
+                }
+            }
+            .responsiveIframe{
+                position:relative;
+                height:0px;
+                width:100%;
+                padding-bottom:56.25%;
+            }
+            .streamChat{
+                .chat-frame{
+                    width:100%;
+                    height:400px;
+                    border:none;
+                }
+            }
+            .streamVideo{
+                .video-frame{
+                    position:absolute;
+                    left:0px;
+                    top:0px;
+                    width:100%;
+                    height:100%;
+                    border:none;
+                }
+            }
+        }
+    }
+}
+
+
+// Settings Modal
+.modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: table;
+    transition: opacity .3s ease;
+}
+.modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+  
+    .modal-container {
+        width: 75%;
+        margin: 0px auto;
+        padding: 20px 30px;
+        background-color: #fff;
+        border-radius: 2px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+        transition: all .3s ease;
+        font-family: Helvetica, Arial, sans-serif;
+
+        .setting{
+            margin-bottom:2em;
+            .settingLabel{
+                margin-bottom:.5em;
+                .setting-title{
+                    font-size:1.5em;
+                }
+                .btn{
+                    float:right;
+                }
+            }
+            .usernameInput input{
+                border:1px solid black;
+                padding:5px;
+                border-radius:.25em;
+            }
+        }
+
+        .onlineFriendsList{
+            list-style: none;
+            margin:0px;
+            padding:0px;
+            height:600px;
+            overflow-y: scroll;
+            li{
+                width:31%;
+                margin:1% 1% 0% 1%;
+                padding:1%;
+                background-color: $stream-tile-bg;
+                box-shadow: $stream-tile-box-shadow;
+                border:2px solid transparent;
+                border-radius: 5px;
+                color:white;
+                @media (max-width: 976px) {
+                    width:100%;
+                }
+                .thumbnail {
+                    width:100%;
+                    position: relative;
+                    display:inline-block;
+                    vertical-align: top;
+                    &:after{
+                        padding-top: 56.25%;
+                        display: block;
+                        content: '';
+                    }
+                    img, video{
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        right: 0;
+                        left: 0;
+                        width:100%;
+                    }
+                }
+                .info-container {
+                    width:100%;
+                    padding: .25em;
+                    display:inline-block;
+                    font-size:1em;
+                    margin-bottom:.5em;
+                }
+                .info-container div{
+                    overflow:hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                .friend-header{
+                    position:absolute;
+                    top:0;
+                    width:100%;
+                    height:40%;
+                    padding: 4px 8px 0px 8px;
+                    font-weight:100;
+                    background: linear-gradient(to bottom, rgba(0,0,0,0.6) 30%,rgba(0,0,0,0.4) 56%,rgba(255,255,255,0) 92%,rgba(255,255,255,0) 100%);
+                }
+                .friendName{
+                    float:left;
+                }
+                .friendViewers{
+                    float:right;
+                }
+            }
+        }
+    }
+}
