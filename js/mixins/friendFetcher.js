@@ -6,6 +6,7 @@ friendFetcher = {
 
 				var request = new XMLHttpRequest();
 				request.open('GET', 'https://mixer.com/api/v1/channels/'+username+'?fields=userId', true);
+				request.setRequestHeader("Client-ID", "8682f64ae59cbcba5cd701c205b54b04a424b46ca064e563");
 
 				request.onload = function() {
 					if (request.status >= 200 && request.status < 400) {
@@ -35,7 +36,7 @@ friendFetcher = {
 
 				var request = new XMLHttpRequest();
 				request.open('GET', 'https://mixer.com/api/v1/users/'+userId+'/follows?fields=id,online,name,token,viewersCurrent,partnered,costreamId,interactive,type&where=online:eq:true&order=token:ASC&limit=250&page='+page, true);
-
+				request.setRequestHeader("Client-ID", "8682f64ae59cbcba5cd701c205b54b04a424b46ca064e563");
 				request.onload = function() {
 					if (request.status >= 200 && request.status < 400) {
 					// Success!
